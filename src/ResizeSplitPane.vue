@@ -5,7 +5,7 @@
     @mousemove="onMouseMove"
     @mouseup="onMouseUp">
       <pane-comp
-        ref="panel1"
+        ref="pane1"
         :class="{column: splitTo === 'columns', row: splitTo === 'rows'}"
         :style="iStyle('first')">
           <slot name='firstPane'></slot>
@@ -17,7 +17,7 @@
           rows: splitTo === 'rows',
           columns: splitTo === 'columns'}"></resizer-comp>
       <pane-comp
-        ref="panel2"
+        ref="pane2"
         :class="{column: splitTo === 'columns', row: splitTo === 'rows'}"
         :style="iStyle('second')">
           <slot name='secondPane'></slot>
@@ -142,7 +142,7 @@ export default {
       if (allowResize && active) {
         unFocus(document, window)
         const isPrimaryFirst = primary === 'first'
-        const ref = isPrimaryFirst ? 'panel1' : 'panel2'
+        const ref = isPrimaryFirst ? 'pane1' : 'pane2'
         if (ref) {
           const node = this.$refs[ref].$vnode.elm
           if (node.getBoundingClientRect) {
