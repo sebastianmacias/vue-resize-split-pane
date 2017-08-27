@@ -4,7 +4,8 @@ Resizable split pane using Vue.js
 
 WIP + RAT
 
-##Install
+## Install
+
 With yarn:
 ```
 yarn add vue-resize-split-pane
@@ -16,7 +17,7 @@ With npm:
 npm i vue-resize-split-pane --save
 ```
 
-##Use
+## Use
 
 Global import
 
@@ -57,12 +58,12 @@ Local import
     ...
 </script>
 ```
-##Slots
+## Slots
 `firstPane` for left column or top row
 
 `secondPane` for right column or bottom row
 
-##Props
+## Props
 ```javascript
 props: {
   allow-resize: { type: Boolean, default: false },
