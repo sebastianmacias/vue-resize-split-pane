@@ -34,14 +34,14 @@ Local import
 ```html
 <template>
   <div id="app">
-    <pane-rs split-to="columns" :allow-resize="true">
+    <rs-panes split-to="columns" :allow-resize="true">
       <div slot="firstPane">
         FIRST
       </div>
       <div slot="secondPane">
         SECOND
       </div>
-    </pane-rs>
+    </rs-panes>
     <!-- <router-view></router-view> -->
   </div>
 </template>
@@ -53,28 +53,65 @@ Local import
   export default {
     name: 'app',
     components: {
-      'pane-rs': ResSplitPane,
+      'rs-panes': ResSplitPane,
     },
     ...
 </script>
 ```
+
+Or you can nest them
+
+```html
+<template>
+  <div id="app">
+    <rs-panes split-to="columns" :allow-resize="true">
+      <div slot="firstPane">
+        LEFT
+      </div>
+      <rs-panes :allowResize="true" split-to="rows"
+        slot="secondPane" primary="second">
+        <rs-panes :allowResize="true" split-to="columns" 
+          slot="firstPane" primary="second">
+          <div slot="firstPane">
+            CENTER
+          </div>
+          <div slot="secondPane">
+            RIGHT
+          </div>
+        </rs-panes>
+        <div slot="secondPane">
+          BOTTOM
+        </div>
+      </rs-panes>
+    </rs-panes>
+  </div>
+</template>
+```
+
 ## Slots
+
 `firstPane` for left column or top row
 
 `secondPane` for right column or bottom row
 
 ## Props
+
 ```javascript
 props: {
-  allow-resize: { type: Boolean, default: false },
-  split-to: { type: String, default: 'columns' }, // columns | rows
-  primary: { type: String, default: 'first' }, // first | second
-  size: { type: Number, default: 100 }, // in pixels
-  min-size: { type: Number, default: 16 }, // in pixels
-  max-size: { type: Number, default: 0 }, // in pixels
-  step: { type: Number, default: 0 },
+  'allow-resize': { type: Boolean, default: false },
+  'split-to': { type: String, default: 'columns' }, // columns | rows
+  'primary': { type: String, default: 'first' }, // first | second
+  'size': { type: Number, default: 100 }, // in pixels
+  'min-size': { type: Number, default: 16 }, // in pixels
+  'max-size': { type: Number, default: 0 }, // in pixels
+  'step': { type: Number, default: 0 }, // in pixels
 },
 ```
+
+The `primary` prop is used to specify which of the two panes has its size fixed.
+
+The `size` prop is either width or height depending on how the panes are split.
+
 
 ## License
 
