@@ -1,6 +1,6 @@
 # vue-resize-split-pane
 
-Resizable split pane using Vue.js
+Splittable and resizable panes for Vue.js
 
 WIP + RAT
 
