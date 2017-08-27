@@ -1,6 +1,6 @@
 <template>
   <div
-    class="split-pane root"
+    class="pane-rs root"
     :class="classObject"
     @mousemove="onMouseMove"
     @mouseup="onMouseUp">
@@ -43,14 +43,14 @@ function unFocus(document, window) {
 }
 
 export default {
-  name: 'split-pane',
+  name: 'pane-rs',
   components: {
     'resizer-comp': Resizer,
     'pane-comp': Pane,
   },
   props: {
     allowResize: { type: Boolean, default: false },
-    split: { type: String, default: 'columns' },
+    splitTo: { type: String, default: 'columns' },
     primary: { type: String, default: 'first' },
     size: { type: Number, default: 100 },
     minSize: { type: Number, default: 16 },
@@ -67,8 +67,8 @@ export default {
   computed: {
     classObject() {
       return {
-        columns: this.split === 'columns',
-        rows: this.split === 'rows',
+        columns: this.splitTo === 'columns',
+        rows: this.splitTo === 'rows',
       }
     },
     iStyle: function() {
@@ -77,7 +77,7 @@ export default {
 
         if (el === this.primary) {
           style.flex = '0 0 auto'
-          this.split === 'columns'
+          this.splitTo === 'columns'
             ? (style.width = this.localSize + 'px')
             : (style.height = this.localSize + 'px')
         } else {
@@ -105,7 +105,7 @@ export default {
       if (this.allowResize) {
         unFocus(document, window)
         const position =
-          this.split === 'columns'
+          this.splitTo === 'columns'
             ? event.touches[0].clientX
             : event.touches[0].clientY
 
@@ -136,7 +136,7 @@ export default {
         minSize,
         step,
         allowResize,
-        split,
+        splitTo,
         primary,
       } = this.$props
       if (allowResize && active) {
@@ -149,10 +149,10 @@ export default {
             const width = node.getBoundingClientRect().width
             const height = node.getBoundingClientRect().height
             const current =
-              split === 'columns'
+              splitTo === 'columns'
                 ? event.touches[0].clientX
                 : event.touches[0].clientY
-            const size = split === 'columns' ? width : height
+            const size = splitTo === 'columns' ? width : height
             let positionDelta = position - current
             const sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta
             let newSize = size - sizeDelta
@@ -201,12 +201,21 @@ export default {
 </script>
 
 <style scoped>
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+ va      box-sizing: border-box;
+  position: relative;
+}
+
 .root {
   height: 100%;
   width: 100%;
 }
 
-.split-pane {
+.pane-rs {
   display: flex;
   flex: 1;
   /*align-items: stretch;

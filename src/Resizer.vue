@@ -12,15 +12,6 @@ export default {
 </script>
 
 <style scoped>
-*,
-*:before,
-*:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
- va      box-sizing: border-box;
-  position: relative;
-}
-
 .Resizer {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
