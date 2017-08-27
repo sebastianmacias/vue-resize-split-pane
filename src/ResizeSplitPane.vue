@@ -6,7 +6,7 @@
     @mouseup="onMouseUp">
       <pane-comp
         ref="panel1"
-        :class="{column: split === 'columns', row: split === 'rows'}"
+        :class="{column: splitTo === 'columns', row: splitTo === 'rows'}"
         :style="iStyle('first')">
           <slot name='firstPane'></slot>
       </pane-comp>
@@ -14,11 +14,11 @@
       @mousedown.native="onMouseDown"
         v-if="allowResize"
         :class="{
-          rows: split === 'rows',
-          columns: split === 'columns'}"></resizer-comp>
+          rows: splitTo === 'rows',
+          columns: splitTo === 'columns'}"></resizer-comp>
       <pane-comp
         ref="panel2"
-        :class="{column: split === 'columns', row: split === 'rows'}"
+        :class="{column: splitTo === 'columns', row: splitTo === 'rows'}"
         :style="iStyle('second')">
           <slot name='secondPane'></slot>
       </pane-comp>
