@@ -180,7 +180,7 @@ export default {
             let positionDelta = position - current
             const sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta
             let newSize =
-              this.units === 'procents'
+              this.units === 'percents'
                 ? this.round2Fixed((size - sizeDelta) * 100 / pSize)
                 : size - sizeDelta
 
