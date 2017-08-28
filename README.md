@@ -99,11 +99,12 @@ Or you can nest them
 ```javascript
 props: {
   'allow-resize': { type: Boolean, default: false },
-  'split-to': { type: String, default: 'columns' }, // columns | rows
-  'primary': { type: String, default: 'first' }, // first | second
-  'size': { type: Number, default: 100 }, // in pixels
-  'min-size': { type: Number, default: 16 }, // in pixels
-  'max-size': { type: Number, default: 0 }, // in pixels
+  'split-to': { type: String, default: 'columns' }, // columns || rows
+  'primary': { type: String, default: 'first' }, // first || second
+  'size': { type: Number, default: 25 }, // in pixels || percents
+  'units': { type: String, default: 'pixels' }, // pixels || percents
+  'min-size': { type: Number, default: 16 }, // in pixels || percents
+  'max-size': { type: Number, default: 0 }, // in pixels || percents
   'step': { type: Number, default: 0 }, // in pixels
 },
 ```

@@ -37,7 +37,7 @@ function unFocus(document, window) {
       window.getSelection().removeAllRanges()
       // eslint-disable-next-line no-empty
     } catch (e) {
-      console.log(e)
+      // console.log(e)
     }
   }
 }
@@ -50,12 +50,13 @@ export default {
   },
   props: {
     allowResize: { type: Boolean, default: false },
-    splitTo: { type: String, default: 'columns' },
-    primary: { type: String, default: 'first' },
-    size: { type: Number, default: 100 },
-    minSize: { type: Number, default: 16 },
-    maxSize: { type: Number, default: 0 },
-    step: { type: Number, default: 0 },
+    splitTo: { type: String, default: 'columns' }, // column || rows
+    primary: { type: String, default: 'first' }, // first || second
+    size: { type: Number, default: 16 }, // pixels || percents
+    units: { type: String, default: 'pixels' }, // pixels || percents
+    minSize: { type: Number, default: 16 }, // pixels || percents
+    maxSize: { type: Number, default: 0 }, // pixels || percents
+    step: { type: Number, default: 0 }, // pixels only
   },
   data() {
     return {
@@ -77,9 +78,10 @@ export default {
 
         if (el === this.primary) {
           style.flex = '0 0 auto'
+          let units = this.units === 'pixels' ? 'px' : '%'
           this.splitTo === 'columns'
-            ? (style.width = this.localSize + 'px')
-            : (style.height = this.localSize + 'px')
+            ? (style.width = this.localSize + units)
+            : (style.height = this.localSize + units)
         } else {
           style.flex = '1 1 0%'
         }
@@ -88,6 +90,14 @@ export default {
     },
   },
   methods: {
+    round2Fixed(value) {
+      let val = +value
+      if (isNaN(val)) return NaN
+
+      val = Math.round(+(val.toString() + 'e2'))
+
+      return +(val.toString() + 'e-2')
+    },
     onMouseDown(event) {
       if (this.allowResize) {
         const eventWithTouches = Object.assign({}, event, {
@@ -146,23 +156,40 @@ export default {
         if (ref) {
           const node = this.$refs[ref].$vnode.elm
           if (node.getBoundingClientRect) {
-            const width = node.getBoundingClientRect().width
-            const height = node.getBoundingClientRect().height
+            // Where is cursor positioned
             const current =
               splitTo === 'columns'
                 ? event.touches[0].clientX
                 : event.touches[0].clientY
-            const size = splitTo === 'columns' ? width : height
+
+            //Current pane size (width || height)
+            const size =
+              splitTo === 'columns'
+                ? node.getBoundingClientRect()['width']
+                : node.getBoundingClientRect()['height']
+            // Direct parent size (width || height)
+            const pSize =
+              splitTo === 'columns'
+                ? this.$refs[ref].$parent.$vnode.elm.getBoundingClientRect()[
+                    'width'
+                  ]
+                : this.$refs[ref].$parent.$vnode.elm.getBoundingClientRect()[
+                    'height'
+                  ]
+
             let positionDelta = position - current
             const sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta
-            let newSize = size - sizeDelta
+            let newSize =
+              this.units === 'percents'
+                ? this.round2Fixed((size - sizeDelta) * 100 / pSize)
+                : size - sizeDelta
+
             const newPosition = position - positionDelta
 
             if (this.step) {
               if (Math.abs(positionDelta) < this.step) {
                 return
               }
-              // Integer division
               // eslint-disable-next-line no-bitwise
               positionDelta = ~~(positionDelta / this.step) * this.step
             }
@@ -173,6 +200,7 @@ export default {
             if (maxSize && newSize > maxSize) {
               newSize = maxSize
             }
+
             this.localSize = newSize
             this.position = newPosition
           }
