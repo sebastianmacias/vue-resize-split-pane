@@ -103,20 +103,6 @@ export default {
     },
   },
   methods: {
-    computeStyle(el) {
-      let style = { flex: 1, position: 'relative', outline: 'none' }
-
-      if (el === this.primary) {
-        style.flex = '0 0 auto'
-        let units = this.units === 'pixels' ? 'px' : '%'
-        this.splitTo === 'columns'
-          ? (style.width = this.size + units)
-          : (style.height = this.size + units)
-      } else {
-        style.flex = '1 1 0%'
-      }
-      return style
-    },
     round2Fixed(value) {
       let val = +value
       if (isNaN(val)) return NaN
