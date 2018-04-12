@@ -2,8 +2,6 @@
 
 Splittable and resizable panes for Vue.js
 
-WIP + RAT
-
 ## Install
 
 With yarn:
@@ -105,13 +103,27 @@ props: {
   'units': { type: String, default: 'pixels' }, // pixels || percents
   'min-size': { type: Number, default: 16 }, // in pixels || percents
   'max-size': { type: Number, default: 0 }, // in pixels || percents
-  'step': { type: Number, default: 0 }, // in pixels
+  'step': { type: Number, default: 0 }, // in pixels only
+  'resizerThickness': { type: Number, default: 2 }, //in px - width of the resizer 
+  'resizerColor': { type: String, default: '#AAA' }, //  any css color - if you set transparency, it will afect the border too
+  'resizerBorderColor': { type: String, default: 'rgba(0,0,0, 0.15)' }, // any css color - #FFF, rgb(0,0,0), rgba(0,0,0,0)
+  'resizerBorderThickness': { type: Number, default: 3 }, // in px - border that forms the shadow 
 },
 ```
 
-The `primary` prop is used to specify which of the two panes has its size fixed.
+`primary` prop is used to specify which of the two panes has its size fixed.
 
-The `size` prop is either width or height depending on how the panes are split.
+`size` prop is either width or height depending on how the panes are split.
+
+**Props added in v0.1.0**
+
+`resizerThickness` - thickness of the resize handler in normal state.
+
+`resizerColor` - color of the resize handler in normal state.
+
+`resizerBorderThickness` - thickness of the resize handler border in hover state.
+
+`resizerBorderColor` - color of the resize handler border in hover state.
 
 
 ## License
