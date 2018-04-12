@@ -7,7 +7,7 @@
       <pane-comp
         ref="pane1"
         :class="{column: splitTo === 'columns', row: splitTo === 'rows'}"
-        :style="iStyle('first')">
+        :style="iStyleFirst">
           <slot name='firstPane'></slot>
       </pane-comp>
       <resizer-comp
@@ -19,7 +19,7 @@
       <pane-comp
         ref="pane2"
         :class="{column: splitTo === 'columns', row: splitTo === 'rows'}"
-        :style="iStyle('second')">
+        :style="iStyleSecond">
           <slot name='secondPane'></slot>
       </pane-comp>
   </div>
@@ -62,7 +62,6 @@ export default {
     return {
       active: false,
       position: 0,
-      localSize: this.size,
     }
   },
   computed: {
@@ -72,24 +71,52 @@ export default {
         rows: this.splitTo === 'rows',
       }
     },
-    iStyle: function() {
-      return function(el) {
-        let style = { flex: 1, position: 'relative', outline: 'none' }
+    iStyleFirst() {
+      let el = 'first'
+      let style = { flex: 1, position: 'relative', outline: 'none' }
 
-        if (el === this.primary) {
-          style.flex = '0 0 auto'
-          let units = this.units === 'pixels' ? 'px' : '%'
-          this.splitTo === 'columns'
-            ? (style.width = this.localSize + units)
-            : (style.height = this.localSize + units)
-        } else {
-          style.flex = '1 1 0%'
-        }
-        return style
+      if (el === this.primary) {
+        style.flex = '0 0 auto'
+        let units = this.units === 'pixels' ? 'px' : '%'
+        this.splitTo === 'columns'
+          ? (style.width = this.size + units)
+          : (style.height = this.size + units)
+      } else {
+        style.flex = '1 1 0%'
       }
+      return style
+    },
+    iStyleSecond() {
+      let el = 'second'
+      let style = { flex: 1, position: 'relative', outline: 'none' }
+
+      if (el === this.primary) {
+        style.flex = '0 0 auto'
+        let units = this.units === 'pixels' ? 'px' : '%'
+        this.splitTo === 'columns'
+          ? (style.width = this.size + units)
+          : (style.height = this.size + units)
+      } else {
+        style.flex = '1 1 0%'
+      }
+      return style
     },
   },
   methods: {
+    computeStyle(el) {
+      let style = { flex: 1, position: 'relative', outline: 'none' }
+
+      if (el === this.primary) {
+        style.flex = '0 0 auto'
+        let units = this.units === 'pixels' ? 'px' : '%'
+        this.splitTo === 'columns'
+          ? (style.width = this.size + units)
+          : (style.height = this.size + units)
+      } else {
+        style.flex = '1 1 0%'
+      }
+      return style
+    },
     round2Fixed(value) {
       let val = +value
       if (isNaN(val)) return NaN
@@ -234,7 +261,7 @@ export default {
 *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
- va      box-sizing: border-box;
+  box-sizing: border-box;
   position: relative;
 }
 
