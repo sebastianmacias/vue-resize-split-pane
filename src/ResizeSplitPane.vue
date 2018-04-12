@@ -13,9 +13,15 @@
       <resizer-comp
       @mousedown.native="onMouseDown"
         v-if="allowResize"
+        :splitTo="splitTo"
+        :resizerColor="resizerColor"
+        :resizerBorderColor="resizerBorderColor"
+        :resizerThickness="resizerThickness"
+        :resizerBorderThickness="resizerBorderThickness"
         :class="{
           rows: splitTo === 'rows',
-          columns: splitTo === 'columns'}"></resizer-comp>
+          columns: splitTo === 'columns'}"
+        ></resizer-comp>
       <pane-comp
         ref="pane2"
         :class="{column: splitTo === 'columns', row: splitTo === 'rows'}"
@@ -57,6 +63,10 @@ export default {
     minSize: { type: Number, default: 16 }, // pixels || percents
     maxSize: { type: Number, default: 0 }, // pixels || percents
     step: { type: Number, default: 0 }, // pixels only
+    resizerThickness: { type: Number, default: 2 }, //in px - width of the resizer
+    resizerColor: { type: String, default: '#AAA' }, //  any css color - if you set transparency, it will afect the border too
+    resizerBorderColor: { type: String, default: 'rgba(0,0,0, 0.15)' }, // any css color - #FFF, rgb(0,0,0), rgba(0,0,0,0)
+    resizerBorderThickness: { type: Number, default: 3 }, // in px - border that forms the shadow
   },
   data() {
     return {

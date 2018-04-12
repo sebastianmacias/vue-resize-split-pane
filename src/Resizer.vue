@@ -1,12 +1,73 @@
 <template>
-<span class="Resizer" ></span>
+  <span @mouseover="isMouseOver = true" @mouseout="isMouseOver = false" class="Resizer" :style="resStyle"> </span>    
 </template>
 
 <script>
 export default {
   name: 'resizer-comp',
+  props: [
+    'splitTo',
+    'resizerColor',
+    'resizerBorderColor',
+    'resizerThickness',
+    'resizerBorderThickness',
+  ],
   data() {
-    return {}
+    return {
+      isMouseOver: false,
+    }
+  },
+  methods: {
+    evMouseOver() {
+      this.isMouseOver = true
+    },
+  },
+  computed: {
+    resizerTotalThickness() {
+      return this.resizerThickness + this.resizerBorderThickness * 2
+    },
+    margin() {
+      return Math.floor(this.resizerThickness / 2) + this.resizerBorderThickness
+    },
+    rBorder() {
+      if (this.splitTo === 'rows') {
+        return { border1: 'top', border2: 'bottom' }
+      } else {
+        return { border1: 'left', border2: 'right' }
+      }
+    },
+    resStyle: function() {
+      let tmpStyle = {}
+
+      tmpStyle['background-color'] = this.resizerColor
+
+      if (this.splitTo === 'rows') {
+        tmpStyle.height = this.resizerTotalThickness + 'px'
+        tmpStyle.margin = '-' + this.margin + 'px 0'
+        tmpStyle.padding = '0 ' + this.resizerBorderThickness + 'px'
+      } else {
+        tmpStyle.width = this.resizerTotalThickness + 'px'
+        tmpStyle.margin = '0 ' + '-' + this.margin + 'px'
+        tmpStyle.padding = this.resizerBorderThickness + 'px 0'
+      }
+
+      if (this.isMouseOver) {
+        tmpStyle[`border-${this.rBorder.border1}`] = tmpStyle[
+          `border-${this.rBorder.border2}`
+        ] =
+          this.resizerBorderColor +
+          ' solid ' +
+          this.resizerBorderThickness +
+          'px'
+      } else {
+        tmpStyle[`border-${this.rBorder.border1}`] = tmpStyle[
+          `border-${this.rBorder.border2}`
+        ] =
+          'transparent solid ' + this.resizerBorderThickness + 'px'
+      }
+
+      return tmpStyle
+    },
   },
 }
 </script>
@@ -16,43 +77,24 @@ export default {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  background: #000;
-  opacity: .2;
   z-index: 1;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
 
 .Resizer:hover {
-  -webkit-transition: all 1s ease;
-  transition: all 1s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .Resizer.rows {
-  height: 11px;
-  margin: -5px 0;
-  border-top: 5px solid rgba(255, 255, 255, 0);
-  border-bottom: 5px solid rgba(255, 255, 255, 0);
   cursor: row-resize;
   width: 100%;
 }
 
-.Resizer.rows:hover {
-  border-top: 5px solid rgba(0, 0, 0, 0.5);
-  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
-}
-
 .Resizer.columns {
-  width: 11px;
-  margin: 0 -5px;
-  border-left: 5px solid rgba(255, 255, 255, 0);
-  border-right: 5px solid rgba(255, 255, 255, 0);
+  height: 100%;
   cursor: col-resize;
-}
-
-.Resizer.columns:hover {
-  border-left: 5px solid rgba(0, 0, 0, 0.5);
-  border-right: 5px solid rgba(0, 0, 0, 0.5);
 }
 </style>
