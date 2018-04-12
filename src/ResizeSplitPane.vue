@@ -62,7 +62,14 @@ export default {
     return {
       active: false,
       position: 0,
+      localSize: this.size,
     }
+  },
+  watch: {
+    // whenever question changes, this function will run
+    size: function(newSize, oldSize) {
+      this.localSize = newSize
+    },
   },
   computed: {
     classObject() {
@@ -79,8 +86,8 @@ export default {
         style.flex = '0 0 auto'
         let units = this.units === 'pixels' ? 'px' : '%'
         this.splitTo === 'columns'
-          ? (style.width = this.size + units)
-          : (style.height = this.size + units)
+          ? (style.width = this.localSize + units)
+          : (style.height = this.localSize + units)
       } else {
         style.flex = '1 1 0%'
       }
@@ -94,8 +101,8 @@ export default {
         style.flex = '0 0 auto'
         let units = this.units === 'pixels' ? 'px' : '%'
         this.splitTo === 'columns'
-          ? (style.width = this.size + units)
-          : (style.height = this.size + units)
+          ? (style.width = this.localSize + units)
+          : (style.height = this.localSize + units)
       } else {
         style.flex = '1 1 0%'
       }
