@@ -1,6 +1,7 @@
 # vue-resize-split-pane
 
 Splittable and resizable panes for Vue.js
+
 [Live Demo](https://raven78.github.io/vue-resize-split-pane/)
 
 ## Install
