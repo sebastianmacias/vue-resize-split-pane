@@ -118,6 +118,7 @@ props: {
 `size` prop is either width or height depending on how the panes are split.
 
 **Events added in v0.1.3**
+
 `update:size` emited after resize, payload new size.
 
 ```html
