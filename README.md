@@ -117,6 +117,17 @@ props: {
 
 `size` prop is either width or height depending on how the panes are split.
 
+**Events added in v0.1.3**
+
+`update:size` emited after resize, payload new size.
+
+```html
+ <rs-panes split-to="columns" v-on:update:size="paneSize = $event" :allow-resize="true">
+ ...
+ </rs-panes>
+
+```
+
 **Props added in v0.1.0**
 
 `resizerThickness` - thickness of the resize handler in normal state.
@@ -130,4 +141,4 @@ props: {
 
 ## License
 
-MIT © Valentin Bucur <valentin.bucur@gmail.com>
+MIT © Valentin Bucur

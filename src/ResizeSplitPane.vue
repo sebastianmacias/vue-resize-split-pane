@@ -251,6 +251,7 @@ export default {
         if (typeof onDragFinished === 'function') {
           onDragFinished(draggedSize)
         }
+        this.$emit('update:size', this.localSize)
         this.active = false
       }
     },

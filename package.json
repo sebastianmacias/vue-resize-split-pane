@@ -1,6 +1,6 @@
 {
   "name": "vue-resize-split-pane",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Splittable and resizable panes for Vue.js",
   "author": "Raven78",
   "license": "SEE LICENCE IN LICENCE.md",
